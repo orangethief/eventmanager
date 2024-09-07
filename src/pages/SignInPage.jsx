@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { baseUrl } from '../../config';
+import { baseUrl } from '../../config'
+import Navbars from "./Navbar.jsx";
 
 const SignInPage = () => {
 
@@ -22,12 +23,14 @@ const [password, setPassword] = useState("");
 
   return (
     <div>
+      <Navbars></Navbars>
       <form>
         <input type="email" id="email" onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
         <input type="password" id='password' onChange={(e) => setPassword(e.target.value)} value={password || ""}/>
         <button onClick={logIn}>Log In</button>
       </form>
     </div>
+    
   )
 }
 
