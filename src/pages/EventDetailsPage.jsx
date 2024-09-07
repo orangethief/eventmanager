@@ -1,8 +1,10 @@
-import React from 'react'
+import Navbars from "./Navbar.jsx"
 
 const EventDetailsPage = () => {
   return (
+    <Navbars>
     <div>EventDetailsPage</div>
+    </Navbars>
   )
 }
 
