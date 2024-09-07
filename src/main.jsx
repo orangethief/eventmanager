@@ -6,11 +6,11 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import EventDetailsPage from './pages/EventDetailsPage.jsx';
-import SignInPage from './pages/SignInPage.jsx';
-import SignUpPage from './pages/SignUpPage.jsx';
-import CreateEventPage from './pages/CreateEventPage.jsx';
-import HomePage from './pages/HomePage.jsx';
+import EventDetailsPage from './Pages/EventDetailsPage.jsx';
+import SignInPage from './Pages/SignInPage.jsx';
+import SignUpPage from './Pages/SignUpPage.jsx';
+import CreateEventPage from './Pages/CreateEventPage.jsx';
+import HomePage from './Pages/HomePage.jsx';
 
 const router = createBrowserRouter([
   {
