@@ -1,7 +1,7 @@
 import { baseUrl } from '../../config';
 import Spinner from '../Spinner.jsx';
 import { useState, useEffect } from 'react';
-import Navbars from '../Navbars.jsx';
+import Navbars from '../Navbar.jsx';
 
 const HomePage = () => {
 
