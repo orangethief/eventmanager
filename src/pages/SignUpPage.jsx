@@ -4,17 +4,30 @@ import { useState } from 'react';
 
 const SignUpPage = () => {
 
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const signUp = async(event) => {
     event.preventDefault();
     console.log(email, password);
-
-    const response = await fetch(`${baseUrl}/api/users`, {
-      method: "POST",
-      body: JSON.stringify({ email: email, password:password }),
-      headers: {"Accept" : "application/json", "Content-Type" : "application/json"}
-    });
-    console.log(await response.json());
-  }
+    try {
+        const response = await fetch(`${baseUrl}/api/users`, {
+        method: "POST",
+        body: JSON.stringify({ email: email, password:password }),
+        headers: {"Accept" : "application/json", "Content-Type" : "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const userData = await response.json();
+      console.log(userData);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,7 +63,7 @@ const SignUpPage = () => {
           </svg>
           <input type="password" id="password" className="grow" onChange={(e) => setPassword(e.target.value)} value={password || ''}  />
         </label>
-        <button onClick={signUp} className="btn btn-accent">Sign Up</button>
+        <button onClick={signUp} className="btn btn-accent my-2">Sign Up</button>
       </div>
     </>
   )
