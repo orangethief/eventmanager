@@ -1,6 +1,7 @@
 import { baseUrl } from '../../config';
 import Spinner from '../Spinner.jsx';
 import { useState, useEffect } from 'react';
+import Navbars from '../Navbars.jsx';
 
 const HomePage = () => {
 
@@ -33,37 +34,39 @@ const HomePage = () => {
 const formattedCreatedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(event.createdAt);
 
   return (
-    <div className="max-w-screen m-6">
-      <h1 className="text-2xl font-bold mb-6">All Events</h1>
-      {loading ? (
-        <Spinner loading={loading} />
-      ) : (
-        <>
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-10/12 mx-auto">
-            {events.length > 0 ? (
-              events.map((event) => (
-                <div key={event.id} className="card bg-base-100 shadow-xl">
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      { event.title }
-                    </h2>
-                    <p>{event.description.substring(0, 90) + '...'}</p>
-                    <p>{formattedEventDate}</p>
-                    <p>{event.location}</p>
-                    <p>created on {formattedCreatedDate}</p>
-                    <div className="card-actions justify-between align-bottom">
-                      <button className="btn btn-primary">View</button>
+    <Navbars>
+      <div className="max-w-screen m-6">
+        <h1 className="text-2xl font-bold mb-6">All Events</h1>
+        {loading ? (
+          <Spinner loading={loading} />
+        ) : (
+          <>
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-10/12 mx-auto">
+              {events.length > 0 ? (
+                events.map((event) => (
+                  <div key={event.id} className="card bg-base-100 shadow-xl">
+                    <div className="card-body">
+                      <h2 className="card-title">
+                        { event.title }
+                      </h2>
+                      <p>{event.description.substring(0, 90) + '...'}</p>
+                      <p>{formattedEventDate}</p>
+                      <p>{event.location}</p>
+                      <p>created on {formattedCreatedDate}</p>
+                      <div className="card-actions justify-between align-bottom">
+                        <button className="btn btn-primary">View</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <p>Nothing happening yet. Get the party started by created your own event! <button>Link to CreateEventPage</button></p>
-            )}
-          </div>
-        </>
-      )}
-    </div>
+                ))
+              ) : (
+                <p>Nothing happening yet. Get the party started by created your own event! <button>Link to CreateEventPage</button></p>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </Navbars>
   )
 }
 
