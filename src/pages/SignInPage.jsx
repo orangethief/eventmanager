@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { baseUrl } from '../../config'
-import Navbars from "./Navbar.jsx";
+import Navbars from "../Pages/Navbar";
 
 const SignInPage = () => {
 
@@ -30,7 +30,7 @@ const [password, setPassword] = useState("");
         <button onClick={logIn}>Log In</button>
       </form>
     </div>
-    
+
   )
 }
 

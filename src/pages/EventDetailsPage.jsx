@@ -1,4 +1,4 @@
-import Navbars from "./Navbar.jsx"
+import Navbars from "../Pages/Navbar";
 
 const EventDetailsPage = () => {
   return (

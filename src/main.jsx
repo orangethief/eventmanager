@@ -14,7 +14,8 @@ import HomePage from './pages/HomePage.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />
+    element: <HomePage />,
+    index: true
   },
   {
     path: "/events/:id",
