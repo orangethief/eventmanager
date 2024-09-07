@@ -1,16 +1,15 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import EventDetailsPage from './Pages/EventDetailsPage.jsx';
-import SignInPage from './Pages/SignInPage.jsx';
-import SignUpPage from './Pages/SignUpPage.jsx';
-import CreateEventPage from './Pages/CreateEventPage.jsx';
-import HomePage from './Pages/HomePage.jsx';
+import EventDetailsPage from './pages/EventDetailsPage.jsx';
+import SignInPage from './pages/SignInPage.jsx';
+import SignUpPage from './pages/SignUpPage.jsx';
+import CreateEventPage from './pages/CreateEventPage.jsx';
+import HomePage from './pages/HomePage.jsx';
 
 const router = createBrowserRouter([
   {
