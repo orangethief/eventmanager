@@ -2,9 +2,10 @@ import Navbars from "../Pages/Navbar";
 
 const EventDetailsPage = () => {
   return (
-    <Navbars>
+    <>
+      <Navbars />
     <div>EventDetailsPage</div>
-    </Navbars>
+    </>
   )
 }
 

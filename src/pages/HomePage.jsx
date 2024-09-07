@@ -34,7 +34,8 @@ const HomePage = () => {
 const formattedCreatedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(event.createdAt);
 
   return (
-    <Navbars>
+    <>
+    <Navbars />
       <div className="max-w-screen m-6">
         <h1 className="text-2xl font-bold mb-6">All Events</h1>
         {loading ? (
@@ -66,7 +67,7 @@ const formattedCreatedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medi
           </>
         )}
       </div>
-    </Navbars>
+      </>
   )
 }
 
