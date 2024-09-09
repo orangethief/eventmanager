@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbars from "../Pages/Navbar";
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
+import 'leaflet-control-geocoder/dist/Control.Geocoder.js';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-// Fix Leaflet marker icon issues for modern ES6 module environments
 const customMarkerIcon = new L.Icon({
   iconUrl: markerIcon,
   iconRetinaUrl: markerIcon2x,
@@ -19,17 +20,49 @@ const customMarkerIcon = new L.Icon({
 });
 
 const CreateEventPage = () => {
-  const [position, setPosition] = useState(null);
+  const [position, setPosition] = useState(null); // For latitude and longitude
+  const [address, setAddress] = useState(''); // For address (human-readable location)
 
   // Custom Map component to handle clicks
   function MapClickHandler() {
     useMapEvents({
       click(e) {
-        setPosition(e.latlng); // Set marker position to clicked coordinates
+        const latlng = e.latlng;
+        setPosition(latlng); // Set the marker position to clicked coordinates
+        reverseGeocode(latlng); // Get the address from the lat/lng
       },
     });
     return null;
   }
+
+  // Function to perform reverse geocoding (latitude/longitude -> address)
+  const reverseGeocode = async (latlng) => {
+    const { lat, lng } = latlng;
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+      );
+      const data = await response.json();
+      setAddress(data.display_name || 'Unknown Location');
+    } catch (error) {
+      console.error('Error during reverse geocoding:', error);
+      setAddress('Unknown Location');
+    }
+  };
+
+  // Function to handle map creation and geocoder integration
+  const handleMapCreated = (mapInstance) => {
+    const geocoder = L.Control.geocoder({
+      defaultMarkGeocode: false,
+    })
+      .on('markgeocode', function (e) {
+        const latlng = e.geocode.center;
+        mapInstance.setView(latlng, 13); // Set the map view to the searched location
+        setPosition(latlng); // Set the position for marker
+        reverseGeocode(latlng); // Get address from lat/lng
+      })
+      .addTo(mapInstance);
+  };
 
   return (
     <>
@@ -57,7 +90,13 @@ const CreateEventPage = () => {
 
             <div>
               <label htmlFor="location" className="block text-gray-700 font-semibold">Enter Location</label>
-              <input type="text" id="location" className="input input-bordered w-full mt-1" />
+              <input
+                type="text"
+                id="location"
+                className="input input-bordered w-full mt-1"
+                value={address} // Show human-readable address here
+                readOnly
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -94,6 +133,7 @@ const CreateEventPage = () => {
               center={[51.505, -0.09]} // Set initial map center (latitude, longitude)
               zoom={13}
               style={{ height: '650px', width: '100%' }}
+              whenCreated={handleMapCreated}
               className="rounded-lg"
             >
               <TileLayer
