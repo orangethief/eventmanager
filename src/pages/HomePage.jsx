@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { baseUrl } from '../../config';
 import Spinner from '../Spinner.jsx';
 import { useState, useEffect } from 'react';
@@ -57,7 +58,7 @@ const HomePage = () => {
                       <p>{event.location}</p>
                       <p>created on {formatCreatedDate(event)}</p>
                       <div className="card-actions justify-between align-bottom">
-                        <button className="btn btn-primary">View</button>
+                        <Link to={`/events/${event.id}`} className="btn btn-primary">View</Link>
                       </div>
                     </div>
                   </div>
