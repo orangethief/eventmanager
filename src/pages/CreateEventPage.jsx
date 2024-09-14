@@ -9,6 +9,8 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { baseUrl } from '../../config';
 import { Button } from '../components/Button';
+import { AlertBoxSuccess } from '../components/AlertBoxes'; // Import the success alert box
+import { useNavigate } from 'react-router-dom'; // For navigation
 
 const customMarkerIcon = new L.Icon({
   iconUrl: markerIcon,
@@ -26,6 +28,8 @@ const CreateEventPage = () => {
   const [title, setTitle] = useState(''); // For title
   const [description, setDescription] = useState(''); // For description
   const [date, setDate] = useState(''); // For date
+  const [showSuccess, setShowSuccess] = useState(false); // To handle success alert
+  const navigate = useNavigate(); // For redirecting
 
   // Custom Map component to handle clicks
   function MapClickHandler() {
@@ -56,16 +60,8 @@ const CreateEventPage = () => {
 
   // Function to handle map creation and geocoder integration
   const handleMapCreated = (mapInstance) => {
-    const geocoder = L.Control.geocoder({
-      defaultMarkGeocode: false,
-    })
-      .on('markgeocode', function (e) {
-        const latlng = e.geocode.center;
-        mapInstance.setView(latlng, 13); // Set the map view to the searched location
-        setPosition(latlng); // Set the position for marker
-        reverseGeocode(latlng); // Get address from lat/lng
-      })
-      .addTo(mapInstance);
+    // This is where you can add custom map behavior if needed
+    console.log('Map instance created:', mapInstance);
   };
 
   // Function to handle form submission and POST request
@@ -104,7 +100,13 @@ const CreateEventPage = () => {
       });
 
       if (response.ok) {
-        alert("Event created successfully!");
+        setShowSuccess(true); // Show the success alert box
+
+        // Automatically close the alert and navigate to homepage after 1 second
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate('/');
+        }, 1000); // 1-second delay
       } else {
         const errorData = await response.json();
         alert(`Error creating event: ${errorData.message}`);
@@ -117,6 +119,7 @@ const CreateEventPage = () => {
   return (
     <div className="CreateForm flex justify-center items-center min-h-screen ">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl p-6">
+
         {/* Form Section */}
         <form className="p-8 rounded-lg shadow-lg space-y-6 bg-gray-800 border border-gray-600" onSubmit={handleCreateEvent}>
           <h2 className="text-3xl font-semibold text-center text-gray-200">Create Event</h2>
@@ -202,7 +205,7 @@ const CreateEventPage = () => {
             center={[51.505, -0.09]} // Set initial map center (latitude, longitude)
             zoom={13}
             style={{ height: '700px', width: '100%' }}
-            whenCreated={handleMapCreated}
+            whenCreated={handleMapCreated} // Attach the handler for when the map is created
             className="rounded-lg"
           >
             <TileLayer
