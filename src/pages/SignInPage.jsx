@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { setToken } from '../utils/auth';
 import { AlertBoxSuccess, AlertBoxError } from "../components/AlertBoxes";
 import InputBox from '../components/InputBox';
+import { Button } from '../components/Button';
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const SignInPage = () => {
                 <InputBox type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} value={email || ''} />
                 <InputBox type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password || ""}/>
                 <div className="mb-10">
-                  <button className='w-full cursor-pointer rounded-md border border-primary bg-primary px-5 py-3 text-base font-medium text-white transition hover:bg-opacity-90' onClick={logIn}>Log In</button>
+                  <Button type="button" onClick={logIn}>Login</Button>
                 </div>
               </form>
             </div>

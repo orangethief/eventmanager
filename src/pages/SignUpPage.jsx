@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { AlertBoxSuccess, AlertBoxError } from "../components/AlertBoxes";
 import InputBox from '../components/InputBox';
+import { Button } from '../components/Button';
 
 const SignUpPage = () => {
 
@@ -19,7 +20,6 @@ const SignUpPage = () => {
     setAlertError({ show: false, message: '' });
     try {
       if (confirmPassword != password) {
-        console.log(confirmPassword, password);
         setAlertError({ show: true, title: 'Error', message: 'Password must be confirmed'});
         return;
       }
@@ -35,7 +35,6 @@ const SignUpPage = () => {
 
       }
       const userData = await response.json();
-      console.log(userData);
 
       setAlertSuccess({ show: true, title: 'Success', message: 'Your account has been created successfully! You will be redirected to the login page.' });
       setTimeout(() => {
@@ -71,7 +70,7 @@ const SignUpPage = () => {
                 <InputBox type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password || ""}/>
                 <InputBox type="password" placeholder="Confirm assword" onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword || ""}/>
                 <div className="mb-10">
-                  <button className='w-full cursor-pointer rounded-md border border-primary bg-primary px-5 py-3 text-base font-medium text-white transition hover:bg-opacity-90' onClick={signUp}>Register</button>
+                  <Button type="button" onClick={signUp}>Register</Button>
                 </div>
               </form>
             </div>

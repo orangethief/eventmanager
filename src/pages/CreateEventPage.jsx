@@ -8,6 +8,7 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { baseUrl } from '../../config';
+import { Button } from '../components/Button';
 
 const customMarkerIcon = new L.Icon({
   iconUrl: markerIcon,
