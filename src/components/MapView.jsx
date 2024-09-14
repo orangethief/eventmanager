@@ -7,6 +7,7 @@ import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import { Pagination } from './Pagination';
 
 const customMarkerIcon = new L.Icon({
   iconUrl: markerIcon,
@@ -18,7 +19,7 @@ const customMarkerIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-export const MapView = ({ events }) => {
+export const MapView = ({ events, totalPages, currentPage, setPage }) => {
   const formatEventDate = (event) => {
     return new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(event.date));
   };
@@ -51,17 +52,20 @@ export const MapView = ({ events }) => {
       <div className="col-span-2">
         <div className="join join-vertical w-full gap-2">
           {events.length > 0 ? (
-            events.map((event) => (
-              <div className="collapse bg-base-300" key={event.id}>
-                <input type="radio" name="events" value={event} checked={currentEvent.id == event.id} onChange={() => setCurrentEvent(event)} />
-                <div className="collapse-title text-xl font-medium">{event.title} ({formatEventDate(event)})</div>
-                <div className="collapse-content">
-                  <p>{event.description.substring(0, 90) + '...'}</p>
-                  <p>{event.location}</p>
-                  <p>created on {formatCreatedDate(event)}</p>
+            <>
+              {events.map((event) => (
+                <div className="collapse bg-base-300" key={event.id}>
+                  <input type="radio" name="events" value={event} checked={currentEvent.id == event.id} onChange={() => setCurrentEvent(event)} />
+                  <div className="collapse-title text-xl font-medium">{event.title} ({formatEventDate(event)})</div>
+                  <div className="collapse-content">
+                    <p>{event.description.substring(0, 90) + '...'}</p>
+                    <p>{event.location}</p>
+                    <p>created on {formatCreatedDate(event)}</p>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+              <Pagination totalPages={totalPages} currentPage={currentPage} setPage={setPage} />
+            </>
           ) : (
             <p>Nothing happening yet. Get the party started by created your own event! <Link to="/new-event">Link to CreateEventPage</Link></p>
           )}
