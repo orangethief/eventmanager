@@ -3,8 +3,7 @@ import Navbars from "../Pages/Navbar";
 const EventDetailsPage = () => {
   return (
     <>
-      <Navbars />
-    <div>EventDetailsPage</div>
+      <div>EventDetailsPage</div>
     </>
   )
 }

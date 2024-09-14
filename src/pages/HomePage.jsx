@@ -1,7 +1,6 @@
 import { baseUrl } from '../../config';
 import Spinner from '../Spinner.jsx';
 import { useState, useEffect } from 'react';
-import Navbars from '../Pages/Navbar.jsx';
 
 const HomePage = () => {
 
@@ -30,12 +29,15 @@ const HomePage = () => {
 
   if (error) return <div>Error: {error.message}</div>;
 
- const formattedEventDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'short' }).format(event.date);
-const formattedCreatedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(event.createdAt);
+  const formatEventDate = (event) => {
+    return new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(event.date));
+  };
+  const formatCreatedDate = (event) => {
+    return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(event.createdAt));
+  };
 
   return (
     <>
-    <Navbars />
       <div className="max-w-screen m-6">
         <h1 className="text-2xl font-bold mb-6">All Events</h1>
         {loading ? (
@@ -51,9 +53,9 @@ const formattedCreatedDate = new Intl.DateTimeFormat('en-US', { dateStyle: 'medi
                         { event.title }
                       </h2>
                       <p>{event.description.substring(0, 90) + '...'}</p>
-                      <p>{formattedEventDate}</p>
+                      <p>{formatEventDate(event)}</p>
                       <p>{event.location}</p>
-                      <p>created on {formattedCreatedDate}</p>
+                      <p>created on {formatCreatedDate(event)}</p>
                       <div className="card-actions justify-between align-bottom">
                         <button className="btn btn-primary">View</button>
                       </div>
