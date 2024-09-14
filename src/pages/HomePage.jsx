@@ -6,6 +6,7 @@ import { GridView } from '../components/GridView.jsx';
 import { MapView } from '../components/MapView.jsx';
 import { Pagination } from '../components/Pagination.jsx';
 import { LayoutGrid, Map } from 'lucide-react';
+import PerPageControl from '../components/PerPageControl.jsx';
 
 const HomePage = () => {
 
@@ -15,10 +16,11 @@ const HomePage = () => {
   const [view, setView] = useState(localStorage.getItem('preferredView') || 'grid');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [perPage, setPerPage] = useState(4);
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/events?page=${page || 1}&limit=4`);
+      const response = await fetch(`${baseUrl}/api/events?page=${page || 1}&limit=${perPage || 4}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -37,6 +39,14 @@ const HomePage = () => {
   }, [page]);
 
   useEffect(() => {
+    console.log('perPage', perPage);
+    if(page === 1) {
+      fetchEvents();
+    }
+    setPage(1);
+  }, [perPage]);
+
+  useEffect(() => {
     localStorage.setItem('preferredView', view);
   }, [view]);
 
@@ -46,8 +56,12 @@ const HomePage = () => {
     <>
       <div className="max-w-screen m-6">
         <div className="flex w-full justify-between">
-          <h1 className="text-2xl font-bold mb-6">All Events</h1>
+          <div className="flex justify-start">
+            <h1 className="text-2xl font-bold mb-6">All Events</h1>
+            <PerPageControl perPage={perPage} setPerPage={setPerPage} />
+          </div>
           <div className="form-control w-32">
+
             <label className="label cursor-pointer">
               <span className="label-text"><LayoutGrid/></span>
               <input type="checkbox" className="toggle" checked={view == 'map'} onChange={() => setView(prev => prev == 'grid' ? 'map' : 'grid')} />
