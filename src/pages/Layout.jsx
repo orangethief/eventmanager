@@ -18,8 +18,10 @@ export const Layout = ({ children }) => {
 
   return (
     <>
-      <Navbar />
-      <Outlet />
+      <main className="container mx-auto">
+        <Navbar />
+        <Outlet />
+      </main>
     </>
   )
 }
