@@ -56,9 +56,9 @@ export const MapView = ({ events }) => {
                 <input type="radio" name="events" value={event} checked={currentEvent.id == event.id} onChange={() => setCurrentEvent(event)} />
                 <div className="collapse-title text-xl font-medium">{event.title} ({formatEventDate(event)})</div>
                 <div className="collapse-content">
-                  <p>{event.description.substring(0, 90) + '...'}</p>
-                  <p>{event.location}</p>
-                  <p>created on {formatCreatedDate(event)}</p>
+                  <p>{event.description}</p>
+                  <p className="py-2">{event.location}</p>
+                  <p><i>created on {formatCreatedDate(event)}</i></p>
                 </div>
               </div>
             ))
