@@ -2,12 +2,16 @@ import { Link } from 'react-router-dom';
 import { baseUrl } from '../../config';
 import Spinner from '../Spinner.jsx';
 import { useState, useEffect } from 'react';
+import { GridView } from '../components/GridView.jsx';
+import { MapView } from '../components/MapView.jsx';
+import { LayoutGrid, Map } from 'lucide-react';
 
 const HomePage = () => {
 
   const [events, setEvents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [view, setView] = useState(localStorage.getItem('preferredView') || 'grid');
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -28,45 +32,32 @@ const HomePage = () => {
     fetchEvents();
   }, []);
 
-  if (error) return <div>Error: {error.message}</div>;
+  useEffect(() => {
+    localStorage.setItem('preferredView', view);
+  }, [view]);
 
-  const formatEventDate = (event) => {
-    return new Intl.DateTimeFormat('en-US', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(event.date));
-  };
-  const formatCreatedDate = (event) => {
-    return new Intl.DateTimeFormat('en-US', { dateStyle: 'medium' }).format(new Date(event.createdAt));
-  };
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <>
       <div className="max-w-screen m-6">
-        <h1 className="text-2xl font-bold mb-6">All Events</h1>
+        <div className="flex w-full justify-between">
+          <h1 className="text-2xl font-bold mb-6">All Events</h1>
+          <div className="form-control w-32">
+            <label className="label cursor-pointer">
+              <span className="label-text"><LayoutGrid/></span>
+              <input type="checkbox" className="toggle" checked={view == 'map'} onChange={() => setView(prev => prev == 'grid' ? 'map' : 'grid')} />
+              <span className="label-text"><Map/></span>
+            </label>
+          </div>
+        </div>
+
         {loading ? (
           <Spinner loading={loading} />
         ) : (
           <>
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-10/12 mx-auto">
-              {events.length > 0 ? (
-                events.map((event) => (
-                  <div key={event.id} className="card bg-base-100 shadow-xl">
-                    <div className="card-body">
-                      <h2 className="card-title">
-                        { event.title }
-                      </h2>
-                      <p>{event.description.substring(0, 90) + '...'}</p>
-                      <p>{formatEventDate(event)}</p>
-                      <p>{event.location}</p>
-                      <p>created on {formatCreatedDate(event)}</p>
-                      <div className="card-actions justify-between align-bottom">
-                        <Link to={`/events/${event.id}`} className="btn btn-primary">View</Link>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p>Nothing happening yet. Get the party started by created your own event! <button>Link to CreateEventPage</button></p>
-              )}
-            </div>
+            {view == 'grid' && <GridView events={events} />}
+            {view == 'map' && <MapView events={events} />}
           </>
         )}
       </div>

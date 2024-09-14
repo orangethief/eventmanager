@@ -1,7 +1,7 @@
 const InputBox = ({ type, placeholder, name, value, onChange }) => {
   return (
     <div className="mb-6">
-      <label className="input input-bordered bg-transparent flex items-center gap-2">
+      <label className="input input-bordered flex items-center gap-2">
         {type == 'email' && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -32,7 +32,7 @@ const InputBox = ({ type, placeholder, name, value, onChange }) => {
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full rounded-md bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:text-gray-700"
+          className="w-full rounded-md px-5 py-3 text-base text-body-color outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:text-gray-700"
         />
       </label>
     </div>
