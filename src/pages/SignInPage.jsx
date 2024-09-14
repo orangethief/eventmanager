@@ -46,11 +46,12 @@ const SignInPage = () => {
       <section className="py-20">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4">
-            <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+            <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-gray-800 px-10 py-16 text-center sm:px-12 md:px-[60px]">
               <div className="mb-10 text-center md:mb-16">
                 <Logo />
               </div>
               <form>
+                <h1 className='mb-3 text-2xl bold'>Login</h1>
                 <InputBox type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} value={email || ''} />
                 <InputBox type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password || ""}/>
                 <div className="mb-10">

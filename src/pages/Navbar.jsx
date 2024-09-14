@@ -22,7 +22,7 @@ const Navbar = () => {
             <div>
               <label className="swap swap-rotate absolute right-16 top-1/4 block-translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden">
                 {/* this hidden checkbox controls the state */}
-                <input type="checkbox" className="theme-controller" value="nord" checked={isDark} onChange={() => setIsDark(!isDark)} />
+                <input type="checkbox" className="theme-controller" value="dim" checked={isDark} onChange={() => setIsDark(!isDark)} />
 
                 {/* sun icon */}
                 <svg
