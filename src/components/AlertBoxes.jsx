@@ -20,7 +20,7 @@ const AlertBoxSuccess = ({ message }) => {
 };
 
 
-const AlertBoxError = ({message }) => {
+const AlertBoxError = ({ message }) => {
   return (
     <div className="flex justify-center">
       <div role="alert" className="alert alert-error w-3/4 mt-4">

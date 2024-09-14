@@ -1,7 +1,8 @@
 import { baseUrl } from '../../config';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AlertBoxSuccess, AlertBoxError } from "../components/AlertBoxes";
+import InputBox from '../components/InputBox';
 
 const SignUpPage = () => {
 
@@ -43,9 +44,33 @@ const SignUpPage = () => {
 
   return (
     <>
-      
+
       {alertSuccess.show && <AlertBoxSuccess message={alertSuccess.message}  /> }
       {alertError.show && <AlertBoxError message={alertError.message}  /> }
+      <section className="py-20">
+        <div className="-mx-4 flex flex-wrap">
+          <div className="w-full px-4">
+            <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+              <div className="mb-10 text-center md:mb-16">
+                <Link to="/" className="mx-auto inline-block max-w-[160px]">
+                  <img
+                    src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-primary.svg"
+                    alt="logo"
+                  />
+                </Link>
+              </div>
+              <form>
+                <InputBox type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} value={email || ''} />
+                <InputBox type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password || ""}/>
+                <div className="mb-10">
+                  <button className='w-full cursor-pointer rounded-md border border-primary bg-primary px-5 py-3 text-base font-medium text-white transition hover:bg-opacity-90' onClick={signUp}>Register</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div className="w-1/3 mx-auto">
         <h1 className="text-3xl font-bold text-primary my-6">Register now!</h1>
         <label className="input input-bordered flex items-center gap-2">
@@ -76,8 +101,6 @@ const SignUpPage = () => {
         </label>
         <button onClick={signUp} className="btn btn-accent my-2">Sign Up</button>
       </div>
-
-
     </>
   )
 }

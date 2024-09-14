@@ -5,12 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'dark-2': '#1f2a37',
+      }
+    },
   },
   plugins: [
     require('daisyui'),
   ],
   daisyui: {
+    darkTheme: "night",
     themes: ["night", "nord"],
   },
+  darkMode: ['class', '[data-theme="night"]'],
 }
