@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { isAuthenticated } from '../utils/auth';
 import { useEffect, useState } from 'react';
+import { Logo } from '../components/Logo';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -15,13 +16,7 @@ const Navbar = () => {
       <div className="container">
         <div className="relative -mx-4 flex items-center justify-between">
           <div className="w-60 max-w-full px-4">
-            <Link to="/" className="block w-full py-5">
-              <img
-                src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-primary.svg"
-                alt="logo"
-                className="block"
-              />
-            </Link>
+            <Logo />
           </div>
           <div className="flex w-full items-center justify-between px-4">
             <div>
