@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Navbars from "../Pages/Navbar";
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -10,6 +9,8 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import { baseUrl } from '../../config';
 import { Button } from '../components/Button';
+import { AlertBoxSuccess } from '../components/AlertBoxes'; // Import the success alert box
+import { useNavigate } from 'react-router-dom'; // For navigation
 
 const customMarkerIcon = new L.Icon({
   iconUrl: markerIcon,
@@ -27,6 +28,8 @@ const CreateEventPage = () => {
   const [title, setTitle] = useState(''); // For title
   const [description, setDescription] = useState(''); // For description
   const [date, setDate] = useState(''); // For date
+  const [showSuccess, setShowSuccess] = useState(false); // To handle success alert
+  const navigate = useNavigate(); // For redirecting
 
   // Custom Map component to handle clicks
   function MapClickHandler() {
@@ -57,16 +60,8 @@ const CreateEventPage = () => {
 
   // Function to handle map creation and geocoder integration
   const handleMapCreated = (mapInstance) => {
-    const geocoder = L.Control.geocoder({
-      defaultMarkGeocode: false,
-    })
-      .on('markgeocode', function (e) {
-        const latlng = e.geocode.center;
-        mapInstance.setView(latlng, 13); // Set the map view to the searched location
-        setPosition(latlng); // Set the position for marker
-        reverseGeocode(latlng); // Get address from lat/lng
-      })
-      .addTo(mapInstance);
+    // This is where you can add custom map behavior if needed
+    console.log('Map instance created:', mapInstance);
   };
 
   // Function to handle form submission and POST request
@@ -105,7 +100,13 @@ const CreateEventPage = () => {
       });
 
       if (response.ok) {
-        alert("Event created successfully!");
+        setShowSuccess(true); // Show the success alert box
+
+        // Automatically close the alert and navigate to homepage after 1 second
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate('/');
+        }, 1000); // 1-second delay
       } else {
         const errorData = await response.json();
         alert(`Error creating event: ${errorData.message}`);
@@ -116,107 +117,109 @@ const CreateEventPage = () => {
   };
 
   return (
-    <>
-      <div className="CreateForm flex justify-center items-center min-h-screen">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl p-4">
-          {/* Form Section */}
-          <form className="bg-white p-6 rounded-lg shadow-lg space-y-4" onSubmit={handleCreateEvent}>
-            <h2 className="text-2xl font-bold mb-4 text-center">Create Event</h2>
+    <div className="CreateForm flex justify-center items-center min-h-screen ">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl p-6">
 
-            <div>
-              <label htmlFor="title" className="block text-gray-700 font-semibold">Enter Title</label>
+        {/* Form Section */}
+        <form className="p-8 rounded-lg shadow-lg space-y-6 bg-gray-800 border border-gray-600" onSubmit={handleCreateEvent}>
+          <h2 className="text-3xl font-semibold text-center text-gray-200">Create Event</h2>
+
+          <div className="space-y-4">
+            <div className="relative">
+              <label htmlFor="title" className="block text-gray-400 font-semibold">Enter Title</label>
               <input
                 type="text"
                 id="title"
-                className="input input-bordered w-full mt-1"
+                className="w-full mt-2 px-4 py-3 bg-gray-700 text-gray-300 border-none rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
 
-            <div>
-              <label htmlFor="description" className="block text-gray-700 font-semibold">Enter Description</label>
-              <input
-                type="text"
+            <div className="relative">
+              <label htmlFor="description" className="block text-gray-400 font-semibold">Enter Description</label>
+              <textarea
                 id="description"
-                className="input input-bordered w-full mt-1"
+                className="w-full mt-2 px-4 py-3 bg-gray-700 text-gray-300 border-none rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
 
-            <div>
-              <label htmlFor="date" className="block text-gray-700 font-semibold">Enter Date</label>
+            <div className="relative">
+              <label htmlFor="date" className="block text-gray-400 font-semibold">Enter Date</label>
               <input
                 type="datetime-local"
                 id="date"
-                className="input input-bordered w-full mt-1"
+                className="w-full mt-2 px-4 py-3 bg-gray-700 text-gray-300 border-none rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
 
-            <div>
-              <label htmlFor="location" className="block text-gray-700 font-semibold">Enter Location</label>
+            <div className="relative">
+              <label htmlFor="location" className="block text-gray-400 font-semibold">Enter Location</label>
               <input
                 type="text"
                 id="location"
-                className="input input-bordered w-full mt-1"
-                value={address} // Show human-readable address here
+                className="w-full mt-2 px-4 py-3 bg-gray-700 text-gray-300 border-none rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+                value={address}
                 readOnly
               />
             </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="longitude" className="block text-gray-700 font-semibold">Longitude</label>
-                <input
-                  type="text"
-                  id="longitude"
-                  className="input input-bordered w-full mt-1"
-                  value={position ? position.lng : ''}
-                  readOnly
-                />
-              </div>
-              <div>
-                <label htmlFor="latitude" className="block text-gray-700 font-semibold">Latitude</label>
-                <input
-                  type="text"
-                  id="latitude"
-                  className="input input-bordered w-full mt-1"
-                  value={position ? position.lat : ''}
-                  readOnly
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-center">
-              <Button type="submit">Create Event</Button>
-            </div>
-          </form>
-
-          {/* Leaflet Map Section */}
-          <div className="rounded-lg shadow-lg overflow-hidden">
-            <MapContainer
-              center={[51.505, -0.09]} // Set initial map center (latitude, longitude)
-              zoom={13}
-              style={{ height: '650px', width: '100%' }}
-              whenCreated={handleMapCreated}
-              className="rounded-lg"
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <MapClickHandler />
-              {position && (
-                <Marker position={position} icon={customMarkerIcon} />
-              )}
-            </MapContainer>
           </div>
+
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="relative">
+              <label htmlFor="longitude" className="block text-gray-400 font-semibold">Longitude</label>
+              <input
+                type="text"
+                id="longitude"
+                className="w-full mt-2 px-4 py-3 bg-gray-700 text-gray-300 border-none rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+                value={position ? position.lng : ''}
+                readOnly
+              />
+            </div>
+            <div className="relative">
+              <label htmlFor="latitude" className="block text-gray-400 font-semibold">Latitude</label>
+              <input
+                type="text"
+                id="latitude"
+                className="w-full mt-2 px-4 py-3 bg-gray-700 text-gray-300 border-none rounded-lg focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+                value={position ? position.lat : ''}
+                readOnly
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <button type="submit" className="w-full py-3 bg-yellow-500 text-gray-900 font-bold rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-4 focus:ring-yellow-400 transition">
+              Create Event
+            </button>
+          </div>
+        </form>
+
+        {/* Leaflet Map Section */}
+        <div className="rounded-lg shadow-lg overflow-hidden border-2 border-gray-700">
+          <MapContainer
+            center={[51.505, -0.09]} // Set initial map center (latitude, longitude)
+            zoom={13}
+            style={{ height: '700px', width: '100%' }}
+            whenCreated={handleMapCreated} // Attach the handler for when the map is created
+            className="rounded-lg"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MapClickHandler />
+            {position && (
+              <Marker position={position} icon={customMarkerIcon} />
+            )}
+          </MapContainer>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
