@@ -1,14 +1,20 @@
 import { baseUrl } from '../../config';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { AlertBoxSuccess, AlertBoxError } from "../components/AlertBoxes";
 
 const SignUpPage = () => {
 
   const navigate = useNavigate();
+  const [alertSuccess, setAlertSuccess] = useState({show: false, message: ''});
+  const [alertError, setAlertError] = useState({show: false, message: ''});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const signUp = async(event) => {
     event.preventDefault();
-    console.log(email, password);
+    setAlertSuccess({ show: false, message: '' });
+    setAlertError({ show: false, message: '' });
     try {
         const response = await fetch(`${baseUrl}/api/users`, {
         method: "POST",
@@ -22,18 +28,24 @@ const SignUpPage = () => {
       }
       const userData = await response.json();
       console.log(userData);
-      alert('Your account has been created successfully! You will be redirected to the login page.');
-      navigate('/login');
+
+      setAlertSuccess({ show: true, title: 'Success', message: 'Your account has been created successfully! You will be redirected to the login page.' });
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+
     } catch (error) {
-      alert(error.message);
+      setAlertError({ show: true, title: 'Error', message: error.message || 'An unknown error occurred. Please reload the page.' });
     }
   };
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
 
   return (
     <>
+      
+      {alertSuccess.show && <AlertBoxSuccess message={alertSuccess.message}  /> }
+      {alertError.show && <AlertBoxError message={alertError.message}  /> }
       <div className="w-1/3 mx-auto">
         <h1 className="text-3xl font-bold text-primary my-6">Register now!</h1>
         <label className="input input-bordered flex items-center gap-2">
@@ -64,6 +76,8 @@ const SignUpPage = () => {
         </label>
         <button onClick={signUp} className="btn btn-accent my-2">Sign Up</button>
       </div>
+
+
     </>
   )
 }
