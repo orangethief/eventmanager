@@ -13,7 +13,7 @@ export const Pagination = ({ totalPages, currentPage, setPage }) => {
       <div className="join">
         <button disabled={currentPage == 1} className="join-item btn" onClick={() => setPage(1)}>&laquo; First</button>
         {pages}
-        <button disabled={currentPage == totalPages} className="join-item btn" onClick={() => setPage(totalPages)}>&raquo; Last</button>
+        <button disabled={currentPage == totalPages} className="join-item btn" onClick={() => setPage(totalPages)}>Last &raquo;</button>
       </div>
     </div>
   )
