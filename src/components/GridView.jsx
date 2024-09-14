@@ -33,7 +33,7 @@ export const GridView = ({ events, totalPages, currentPage, setPage }) => {
       <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 w-10/12 mx-auto">
         {events.length > 0 ? (
           events.map((event) => (
-            <div key={event.id} className="card bg-base-100 shadow-xl">
+            <div key={event.id} className="card bg-gray-800 shadow-xl">
               <figure>
                 <MapContainer
                   center={[event.latitude, event.longitude]}

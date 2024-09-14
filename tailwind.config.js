@@ -16,7 +16,7 @@ export default {
   ],
   daisyui: {
     darkTheme: "night",
-    themes: ["night", "nord"],
+    themes: ["night", "dim"],
   },
   darkMode: ['class', '[data-theme="night"]'],
 }
