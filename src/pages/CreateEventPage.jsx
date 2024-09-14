@@ -109,7 +109,6 @@ const CreateEventPage = () => {
 
   return (
     <>
-      <Navbars />
       <div className="CreateForm flex justify-center items-center min-h-screen">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl p-4">
           {/* Form Section */}
@@ -118,10 +117,10 @@ const CreateEventPage = () => {
 
             <div>
               <label htmlFor="title" className="block text-gray-700 font-semibold">Enter Title</label>
-              <input 
-                type="text" 
-                id="title" 
-                className="input input-bordered w-full mt-1" 
+              <input
+                type="text"
+                id="title"
+                className="input input-bordered w-full mt-1"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -129,10 +128,10 @@ const CreateEventPage = () => {
 
             <div>
               <label htmlFor="description" className="block text-gray-700 font-semibold">Enter Description</label>
-              <input 
-                type="text" 
-                id="description" 
-                className="input input-bordered w-full mt-1" 
+              <input
+                type="text"
+                id="description"
+                className="input input-bordered w-full mt-1"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -140,10 +139,10 @@ const CreateEventPage = () => {
 
             <div>
               <label htmlFor="date" className="block text-gray-700 font-semibold">Enter Date</label>
-              <input 
-                type="datetime-local" 
-                id="date" 
-                className="input input-bordered w-full mt-1" 
+              <input
+                type="datetime-local"
+                id="date"
+                className="input input-bordered w-full mt-1"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
               />

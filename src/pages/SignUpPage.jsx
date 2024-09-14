@@ -1,4 +1,3 @@
-import Navbars from "../Pages/Navbar";
 import { baseUrl } from '../../config';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
