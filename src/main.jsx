@@ -10,28 +10,49 @@ import SignInPage from './pages/SignInPage.jsx';
 import SignUpPage from './pages/SignUpPage.jsx';
 import CreateEventPage from './pages/CreateEventPage.jsx';
 import HomePage from './pages/HomePage.jsx';
+import { Layout } from './pages/Layout.jsx';
+import { LogOutPage } from './pages/LogOutPage.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
-    index: true
-  },
-  {
-    path: "/events/:id",
-    element: <EventDetailsPage />
-  },
-  {
-    path: "/login/",
-    element: <SignInPage />
-  },
-  {
-  path: "/signup/",
-  element: <SignUpPage />
-  },
-  {
-  path: "/newevent/",
-  element: <CreateEventPage />
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+        index: true,
+      },
+      {
+        path: "/events/:id",
+        element: <EventDetailsPage />,
+      },
+      {
+        path: "/login/",
+        element: <SignInPage />,
+        loader: () => ({
+          anonymous: true,
+        })
+      },
+      {
+        path: "/signup/",
+        element: <SignUpPage />,
+        loader: () => ({
+          anonymous: true,
+        })
+      },
+      {
+        path: "/logout/",
+        element: <LogOutPage />,
+      },
+      {
+        path: "/new-event/",
+        element: <CreateEventPage />,
+        id: 'new-event',
+        loader: () => ({
+          isProtected: true,
+        })
+      }
+    ],
   }
 ]);
 

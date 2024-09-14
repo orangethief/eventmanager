@@ -1,4 +1,3 @@
-import Navbars from "../Pages/Navbar";
 import { baseUrl } from '../../config';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -35,7 +34,6 @@ const SignUpPage = () => {
 
   return (
     <>
-      <Navbars/>
       <div className="w-1/3 mx-auto">
         <h1 className="text-3xl font-bold text-primary my-6">Register now!</h1>
         <label className="input input-bordered flex items-center gap-2">
