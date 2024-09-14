@@ -18,7 +18,8 @@ const SignUpPage = () => {
         headers: {"Accept" : "application/json", "Content-Type" : "application/json"}
       });
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        const errorData = await response.json();
+        alert(errorData.error || 'An unknown error occurred');
       }
       const userData = await response.json();
       console.log(userData);
