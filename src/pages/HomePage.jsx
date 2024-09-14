@@ -4,6 +4,7 @@ import Spinner from '../Spinner.jsx';
 import { useState, useEffect } from 'react';
 import { GridView } from '../components/GridView.jsx';
 import { MapView } from '../components/MapView.jsx';
+import { Pagination } from '../components/Pagination.jsx';
 import { LayoutGrid, Map } from 'lucide-react';
 
 const HomePage = () => {
@@ -12,25 +13,28 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [view, setView] = useState(localStorage.getItem('preferredView') || 'grid');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/api/events?page=${page || 1}&limit=4`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setTotalPages(data.totalPages);
+      setEvents(data.results);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/api/events`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setEvents(data.results);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchEvents();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     localStorage.setItem('preferredView', view);
@@ -56,8 +60,8 @@ const HomePage = () => {
           <Spinner loading={loading} />
         ) : (
           <>
-            {view == 'grid' && <GridView events={events} />}
-            {view == 'map' && <MapView events={events} />}
+            {view == 'grid' && <GridView events={events} totalPages={totalPages} currentPage={page} setPage={setPage} />}
+            {view == 'map' && <MapView events={events} totalPages={totalPages} currentPage={page} setPage={setPage} />}
           </>
         )}
       </div>
