@@ -27,25 +27,25 @@ const router = createBrowserRouter([
         element: <EventDetailsPage />,
       },
       {
-        path: "/login/",
+        path: "/login",
         element: <SignInPage />,
         loader: () => ({
           anonymous: true,
         })
       },
       {
-        path: "/signup/",
+        path: "/register",
         element: <SignUpPage />,
         loader: () => ({
           anonymous: true,
         })
       },
       {
-        path: "/logout/",
+        path: "/logout",
         element: <LogOutPage />,
       },
       {
-        path: "/new-event/",
+        path: "/new-event",
         element: <CreateEventPage />,
         id: 'new-event',
         loader: () => ({
