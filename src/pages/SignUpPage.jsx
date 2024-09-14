@@ -1,12 +1,11 @@
 import Navbars from "../Pages/Navbar";
 import { baseUrl } from '../../config';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
 
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const signUp = async(event) => {
     event.preventDefault();
@@ -14,19 +13,20 @@ const SignUpPage = () => {
     try {
         const response = await fetch(`${baseUrl}/api/users`, {
         method: "POST",
-        body: JSON.stringify({ email: email, password:password }),
+        body: JSON.stringify({ email: email, password: password }),
         headers: {"Accept" : "application/json", "Content-Type" : "application/json"}
       });
       if (!response.ok) {
         const errorData = await response.json();
-        alert(errorData.error || 'An unknown error occurred');
+        throw new Error(errorData.error || 'An unknown error occurred');
+
       }
       const userData = await response.json();
       console.log(userData);
+      alert('Your account has been created successfully! You will be redirected to the login page.');
+      navigate('/login');
     } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
+      alert(error.message);
     }
   };
 
@@ -62,7 +62,7 @@ const SignUpPage = () => {
               d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
               clipRule="evenodd" />
           </svg>
-          <input type="password" id="password" className="grow" onChange={(e) => setPassword(e.target.value)} value={password || ''}  />
+          <input type="password" id="password" placeholder="Password (min. 8 characters)" className="grow" onChange={(e) => setPassword(e.target.value)} value={password || ''}  />
         </label>
         <button onClick={signUp} className="btn btn-accent my-2">Sign Up</button>
       </div>
