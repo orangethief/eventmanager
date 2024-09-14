@@ -43,7 +43,7 @@ const SignUpPage = () => {
 
   return (
     <>
-      <Navbars/>
+      
       {alertSuccess.show && <AlertBoxSuccess message={alertSuccess.message}  /> }
       {alertError.show && <AlertBoxError message={alertError.message}  /> }
       <div className="w-1/3 mx-auto">
