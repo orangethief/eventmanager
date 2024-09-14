@@ -8,7 +8,7 @@ import 'leaflet-control-geocoder/dist/Control.Geocoder.js';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import { baseUrl } from '../../config'
+import { baseUrl } from '../../config';
 
 const customMarkerIcon = new L.Icon({
   iconUrl: markerIcon,
@@ -72,6 +72,13 @@ const CreateEventPage = () => {
   const handleCreateEvent = async (e) => {
     e.preventDefault();
 
+    // Get token from local storage
+    const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+    if (!token) {
+      alert("You need to be logged in to create an event.");
+      return;
+    }
+
     if (!title || !description || !date || !position || !address) {
       alert("Please fill in all fields and select a location.");
       return;
@@ -91,7 +98,7 @@ const CreateEventPage = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhbGljZUBleGFtcGxlLmNvbSIsImlhdCI6MTcyNjA4MTk1MiwiZXhwIjoxNzI5NjgxOTUyfQ.PRc1SaNjPcjQutNh46CDxpZLS0moatEXKE_0dX0hpoY',
+          'Authorization': `Bearer ${token}`, // Use the token from localStorage
         },
         body: JSON.stringify(eventData),
       });
